@@ -34,9 +34,11 @@ export function SiteHeader() {
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
         <Link href="/" className="group flex items-center gap-2.5">
-          <span className="grid size-10 place-items-center rounded-xl bg-gradient-to-br from-flame via-ember to-blood text-coal shadow-[0_0_22px_-4px] shadow-ember/70 transition-transform duration-300 group-hover:rotate-6">
-            <Flame className="size-5.5" strokeWidth={2.4} />
-          </span>
+          <img
+            src="/logo_no_background.png"
+            alt="Rib House Logo"
+            className="size-11 object-contain transition-transform duration-300 group-hover:scale-105"
+          />
           <span className="leading-none">
             <span className="block font-display text-2xl tracking-[0.08em] text-cream">
               RIB HOUSE
@@ -61,11 +63,11 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-2">
           <a
-            href={`tel:${RESTAURANT.phoneIntl}`}
+            href="#contact"
             className="hidden items-center gap-2 rounded-full border border-line bg-soot px-4 py-2 text-sm font-bold text-cream transition-colors hover:border-ember/60 hover:text-flame lg:inline-flex"
           >
             <Phone className="size-4 text-ember" />
-            {RESTAURANT.phone}
+            Contact Us
           </a>
 
           <button
@@ -120,10 +122,11 @@ export function SiteHeader() {
                 </Link>
               ))}
               <a
-                href={`tel:${RESTAURANT.phoneIntl}`}
+                href="#contact"
+                onClick={() => setMobileOpen(false)}
                 className="flex items-center gap-2 rounded-xl px-3 py-3 text-sm font-bold text-flame"
               >
-                <Phone className="size-4" /> {RESTAURANT.phone}
+                <Phone className="size-4" /> Contact Us
               </a>
             </div>
           </motion.nav>

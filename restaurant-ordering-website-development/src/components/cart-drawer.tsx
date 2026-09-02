@@ -34,12 +34,12 @@ function buildWhatsAppUrl(opts: {
 }): string {
   const lines = opts.lines
     .map((l, i) => {
-      const side = l.side ? ` — ${l.side}` : "";
-      return `${i + 1}. ${l.qty}× ${l.name}${side} — ${ksh(l.price * l.qty)}`;
+      const side = l.side ? ` (${l.side})` : "";
+      return `${i + 1}. ${l.qty}× ${l.name}${side}: ${ksh(l.price * l.qty)}`;
     })
     .join("\n");
   const message = [
-    `Hello Rib House — I'd like to place an order:`,
+    `Hello Rib House, I'd like to place an order:`,
     ``,
     `*Name:* ${opts.name}`,
     `*Phone:* ${opts.phone}`,
@@ -70,8 +70,8 @@ export function CartDrawer() {
   const [notes, setNotes] = useState("");
   const [payment, setPayment] = useState<"mpesa" | "cash">("mpesa");
 
-  const deliveryFee = orderType === "delivery" && lines.length > 0 ? DELIVERY_FEE : 0;
-  const total = subtotal + deliveryFee;
+  const deliveryFee = 0;
+  const total = subtotal;
 
   const [validationError, setValidationError] = useState<string | null>(null);
   const [sending, setSending] = useState(false);
@@ -204,7 +204,7 @@ export function CartDrawer() {
                             layout
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, x: 40 }}
+                            exit={{ opacity: 0 }}
                             className="flex gap-3 rounded-2xl border border-line bg-soot/50 p-3"
                           >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -227,7 +227,7 @@ export function CartDrawer() {
                             <div className="flex flex-col items-end justify-between">
                               <button
                                 onClick={() => remove(line.slug)}
-                                className="text-ash transition-colors hover:text-danger"
+                                className="text-ash hover:text-cream cursor-pointer"
                                 aria-label="Remove item"
                               >
                                 <Trash2 className="size-4" />
@@ -261,17 +261,9 @@ export function CartDrawer() {
 
                 {lines.length > 0 && (
                   <div className="border-t border-line bg-soot/40 px-5 py-4">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-ash">Subtotal</span>
-                      <span className="font-extrabold text-cream">{ksh(subtotal)}</span>
-                    </div>
-                    <p className="mt-1 text-xs text-ash">
-                      Delivery fee calculated at checkout — {ksh(DELIVERY_FEE)} flat,
-                      pickup is free.
-                    </p>
                     <button
                       onClick={() => setStep("checkout")}
-                      className="mt-4 w-full rounded-full bg-gradient-to-br from-flame via-ember to-blood py-3.5 text-sm font-extrabold tracking-widest text-coal uppercase transition-transform hover:scale-[1.02] active:scale-95"
+                      className="w-full rounded-full bg-gradient-to-br from-flame via-ember to-blood py-3.5 text-sm font-extrabold tracking-widest text-black uppercase transition-transform hover:scale-[1.02] active:scale-95 cursor-pointer"
                     >
                       Checkout · {ksh(subtotal)}
                     </button>
@@ -288,28 +280,21 @@ export function CartDrawer() {
                   <div className="grid grid-cols-2 gap-2 rounded-2xl border border-line bg-soot/40 p-1.5">
                     {(
                       [
-                        { id: "delivery", label: "Delivery", icon: Bike, hint: ksh(DELIVERY_FEE) },
-                        { id: "pickup", label: "Pickup", icon: Store, hint: "Free" },
+                        { id: "delivery", label: "Delivery", icon: Bike },
+                        { id: "pickup", label: "Pickup", icon: Store },
                       ] as const
                     ).map((opt) => (
                       <button
                         key={opt.id}
                         onClick={() => setOrderType(opt.id)}
-                        className={`flex items-center justify-center gap-2 rounded-xl px-3 py-3 text-sm font-extrabold transition-all ${
+                        className={`flex items-center justify-center gap-2 rounded-xl px-3 py-3 text-sm font-extrabold transition-all cursor-pointer ${
                           orderType === opt.id
-                            ? "bg-gradient-to-br from-flame to-ember text-coal"
+                            ? "bg-gradient-to-br from-flame to-ember text-black"
                             : "text-sand hover:text-cream"
                         }`}
                       >
                         <opt.icon className="size-4.5" />
                         {opt.label}
-                        <span
-                          className={`text-[10px] font-bold ${
-                            orderType === opt.id ? "text-coal/70" : "text-ash"
-                          }`}
-                        >
-                          {opt.hint}
-                        </span>
                       </button>
                     ))}
                   </div>
@@ -323,7 +308,7 @@ export function CartDrawer() {
                     />
                     <input
                       className="field"
-                      placeholder="Phone — e.g. 0724 000 000"
+                      placeholder="Phone (e.g. 0724 000 000)"
                       inputMode="tel"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
@@ -331,14 +316,14 @@ export function CartDrawer() {
                     {orderType === "delivery" && (
                       <textarea
                         className="field min-h-20 resize-none"
-                        placeholder="Delivery location — estate, street, landmark…"
+                        placeholder="Delivery location (estate, street, landmark…)"
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
                       />
                     )}
                     <textarea
                       className="field min-h-16 resize-none"
-                      placeholder="Notes for the kitchen (optional) — e.g. extra spicy, no onions"
+                      placeholder="Notes for the kitchen (optional, e.g. extra spicy, no onions)"
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                     />
@@ -380,26 +365,14 @@ export function CartDrawer() {
                 </div>
 
                 <div className="border-t border-line bg-soot/40 px-5 py-4">
-                  <div className="space-y-1.5 text-sm">
-                    <div className="flex justify-between text-ash">
-                      <span>Subtotal</span>
-                      <span className="font-bold text-cream">{ksh(subtotal)}</span>
-                    </div>
-                    <div className="flex justify-between text-ash">
-                      <span>{orderType === "delivery" ? "Delivery" : "Pickup"}</span>
-                      <span className="font-bold text-cream">
-                        {deliveryFee === 0 ? "Free" : ksh(deliveryFee)}
-                      </span>
-                    </div>
-                    <div className="flex justify-between border-t border-line pt-2 text-base">
-                      <span className="font-extrabold">Total</span>
-                      <span className="font-display text-2xl text-flame">{ksh(total)}</span>
-                    </div>
+                  <div className="flex items-center justify-between text-base">
+                    <span className="font-extrabold text-cream">Total</span>
+                    <span className="font-display text-2xl text-flame">{ksh(total)}</span>
                   </div>
                   <button
                     onClick={sendToWhatsApp}
                     disabled={sending}
-                    className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-br from-flame via-ember to-blood py-3.5 text-sm font-extrabold tracking-widest text-coal uppercase transition-transform hover:scale-[1.02] active:scale-95 disabled:opacity-60"
+                    className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-br from-flame via-ember to-blood py-3.5 text-sm font-extrabold tracking-widest text-black uppercase transition-transform hover:scale-[1.02] active:scale-95 disabled:opacity-60 cursor-pointer"
                   >
                     {sending ? (
                       <>

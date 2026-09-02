@@ -4,13 +4,15 @@ import { RESTAURANT } from "@/lib/menu-data";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-line bg-soot">
+    <footer id="contact" className="border-t border-line bg-soot scroll-mt-10">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-3 lg:px-8">
         <div>
           <div className="flex items-center gap-2.5">
-            <span className="grid size-10 place-items-center rounded-xl bg-gradient-to-br from-flame via-ember to-blood text-coal">
-              <Flame className="size-5.5" strokeWidth={2.4} />
-            </span>
+            <img
+              src="/logo_no_background.png"
+              alt="Rib House Logo"
+              className="size-11 object-contain"
+            />
             <span className="leading-none">
               <span className="block font-display text-2xl tracking-[0.08em]">RIB HOUSE</span>
               <span className="block text-[10px] font-bold tracking-[0.28em] text-ember uppercase">
@@ -19,7 +21,7 @@ export function SiteFooter() {
             </span>
           </div>
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-ash">
-            Charcoal-grilled choma, hearty stews, whole fish, snacks and drinks —
+            Charcoal-grilled choma, hearty stews, whole fish, snacks and drinks,
             ordered online, delivered hot.
           </p>
         </div>
@@ -45,8 +47,12 @@ export function SiteFooter() {
                 <Mail className="size-4 text-ember" /> {RESTAURANT.email}
               </a>
             </li>
-            <li className="flex items-center gap-3 text-sand">
-              <Clock3 className="size-4 text-ember" /> {RESTAURANT.hours}
+            <li className="flex items-start gap-3 text-sand">
+              <Clock3 className="size-4 text-ember shrink-0 mt-0.5" />
+              <div className="leading-snug">
+                <p>Mon - Sat: 5:30 AM - 11:00 PM</p>
+                <p>Sun: 5:30 AM - 10:00 PM</p>
+              </div>
             </li>
             <li>
               <a
@@ -73,18 +79,8 @@ export function SiteFooter() {
             </li>
             <li>
               <Link href="/#fire" className="text-sand transition-colors hover:text-flame">
-                The fire — our story
+                The fire: our story
               </Link>
-            </li>
-            <li>
-              <a
-                href={RESTAURANT.mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sand transition-colors hover:text-flame"
-              >
-                Find us on Google Maps ↗
-              </a>
             </li>
           </ul>
         </div>
@@ -93,7 +89,7 @@ export function SiteFooter() {
       <div className="border-t border-line">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-5 sm:px-6 lg:px-8">
           <p className="text-xs text-ash">
-            © {new Date().getFullYear()} Rib House — Best Quality Grilled Meat.
+            © {new Date().getFullYear()} Rib House. Best Quality Grilled Meat.
           </p>
           <p className="flex items-center gap-2 text-[10px] font-extrabold tracking-[0.3em] text-ash uppercase">
             <Flame className="size-3 text-ember" /> Order · Eat · Repeat

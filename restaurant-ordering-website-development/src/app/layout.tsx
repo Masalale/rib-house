@@ -5,10 +5,15 @@ import { SiteHeader } from "@/components/site-header";
 import { CartDrawer } from "@/components/cart-drawer";
 
 export const metadata: Metadata = {
-  title: "Rib House — Best Quality Grilled Meat",
+  title: "Rib House",
   description:
     "Charcoal-grilled goat & beef choma, hearty stews, whole Lake Victoria tilapia, snacks and drinks. Order online for fast delivery or pickup in Nairobi.",
   keywords: ["Rib House", "nyama choma", "restaurant", "delivery", "Nairobi", "grilled meat", "Kenya"],
+  icons: {
+    icon: "/logo_no_background.png",
+    shortcut: "/logo_no_background.png",
+    apple: "/logo_no_background.png",
+  },
 };
 
 export default function RootLayout({
@@ -17,6 +22,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
+        <link rel="icon" type="image/png" href="/logo_no_background.png" />
+        <link rel="apple-touch-icon" href="/logo_no_background.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link

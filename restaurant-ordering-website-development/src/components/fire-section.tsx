@@ -4,7 +4,7 @@ const FEATURES = [
   {
     icon: Flame,
     title: "Real charcoal fire",
-    text: "Every piece of meat kisses open flame — that smoky char you can't fake.",
+    text: "Every piece of meat kisses open flame, giving that smoky char you can't fake.",
   },
   {
     icon: Leaf,
@@ -14,7 +14,7 @@ const FEATURES = [
   {
     icon: Timer,
     title: "Made to order",
-    text: "Tumbukiza, platters and chemsha are fired up when you order — worth the wait.",
+    text: "Tumbukiza, platters and chemsha are fired up when you order, well worth the wait.",
   },
   {
     icon: Bike,
@@ -68,8 +68,8 @@ export function FireSection() {
           <p className="mt-5 max-w-lg leading-relaxed text-sand">
             Rib House started with one grill, one secret dry rub, and a promise:
             <span className="font-bold text-cream"> best quality grilled meat</span>,
-            every single plate. Today the fire burns bigger — choma by the kilo,
-            kienyeji chicken, whole tilapia, barista specials and fresh juices —
+            every single plate. Today the fire burns bigger: choma by the kilo,
+            kienyeji chicken, whole tilapia, barista specials and fresh juices,
             but the promise hasn&apos;t moved an inch.
           </p>
 

@@ -44,7 +44,7 @@ export function Hero() {
             custom={2}
             className="mt-6 max-w-xl text-base leading-relaxed text-sand sm:text-lg"
           >
-            Welcome to <span className="font-bold text-cream">Rib House</span> — best
+            Welcome to <span className="font-bold text-cream">Rib House</span>, best
             quality grilled meat. Choma by the kilo, slow-simmered stews, whole
             tilapia, thick shakes and everything a proper Kenyan feast needs.
             Cooked over real flame, delivered hot to your door.

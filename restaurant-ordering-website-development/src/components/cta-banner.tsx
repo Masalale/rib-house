@@ -21,7 +21,7 @@ export function CtaBanner() {
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-sand">
           One call and the fire is yours. Choma, platters and tumbukiza are made
-          fresh on order — give us a shout and we&apos;ll handle the rest.
+          fresh on order. Give us a shout and we&apos;ll handle the rest.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
