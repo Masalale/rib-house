@@ -9,9 +9,9 @@ export function SiteFooter() {
         <div>
           <div className="flex items-center gap-2.5">
             <img
-              src="/logo_no_background.png"
+              src="/logo_background.jpeg"
               alt="Rib House Logo"
-              className="size-11 object-contain"
+              className="size-11 rounded-xl object-cover shadow-xs"
             />
             <span className="leading-none">
               <span className="block font-display text-2xl tracking-[0.08em]">RIB HOUSE</span>

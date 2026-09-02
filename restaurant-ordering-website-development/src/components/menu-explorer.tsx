@@ -86,6 +86,7 @@ function KioskDishCard({
 
 /* ─────────────────────────────────────────────────────────────
    KG Weight Dish Card (Choma, Chemsha, Tumbukiza)
+   Proportioned image height to prevent oversized layout
    ───────────────────────────────────────────────────────────── */
 function KgDishCard({
   dish,
@@ -99,10 +100,9 @@ function KgDishCard({
 
   const perKgPrice = dish.perKgPrice ?? dish.basePrice;
   const total = Math.round(perKgPrice * kg);
-  const presets = [0.5, 1, 1.5, 2, 3];
 
   const updateKg = (val: number) => {
-    const clamped = Math.min(10, Math.max(0.25, Math.round(val * 4) / 4));
+    const clamped = Math.min(10, Math.max(0.5, Math.round(val * 2) / 2));
     setKg(clamped);
     setKgInput(String(clamped));
   };
@@ -110,20 +110,20 @@ function KgDishCard({
   const handleKgInputChange = (v: string) => {
     setKgInput(v);
     const n = parseFloat(v);
-    if (!isNaN(n) && n >= 0.25 && n <= 10) setKg(n);
+    if (!isNaN(n) && n >= 0.5 && n <= 10) setKg(Math.round(n * 2) / 2);
   };
 
   const handleKgBlur = () => {
     let n = parseFloat(kgInput);
-    if (isNaN(n) || n < 0.25) n = 0.25;
+    if (isNaN(n) || n < 0.5) n = 0.5;
     if (n > 10) n = 10;
-    n = Math.round(n * 4) / 4;
+    n = Math.round(n * 2) / 2;
     setKg(n);
     setKgInput(String(n));
   };
 
   const handleAdd = () => {
-    const kgRounded = Math.round(kg * 4) / 4;
+    const kgRounded = Math.round(kg * 2) / 2;
     const price = Math.round(perKgPrice * kgRounded);
     add(
       {
@@ -144,7 +144,7 @@ function KgDishCard({
   return (
     <div className="flex flex-col justify-between overflow-hidden rounded-3xl border border-line bg-white shadow-xs transition-all hover:border-ember/40">
       <div>
-        <div className="relative aspect-[16/9] w-full overflow-hidden bg-soot">
+        <div className="relative h-48 sm:h-56 w-full overflow-hidden bg-soot">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={dish.image} alt={dish.name} className="h-full w-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent" />
@@ -158,32 +158,17 @@ function KgDishCard({
           </div>
         </div>
 
-        <div className="p-5">
-          {dish.description && (
+        {dish.description && (
+          <div className="p-4 sm:p-5 pb-2">
             <p className="text-xs text-ash leading-relaxed">{dish.description}</p>
-          )}
-          <div className="mt-4 flex flex-wrap items-center gap-1.5">
-            {presets.map((p) => (
-              <button
-                key={p}
-                onClick={() => updateKg(p)}
-                className={`rounded-lg px-2.5 py-1 text-xs font-bold transition-all ${
-                  kg === p
-                    ? "bg-cream text-white shadow-xs"
-                    : "border border-line bg-soot text-sand hover:border-sand hover:text-cream"
-                }`}
-              >
-                {p} KG
-              </button>
-            ))}
           </div>
-        </div>
+        )}
       </div>
 
-      <div className="px-5 pb-5 pt-2 border-t border-line flex flex-wrap items-center justify-between gap-3">
+      <div className="px-4 pb-4 sm:px-5 sm:pb-5 pt-2 border-t border-line flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-1 rounded-full border border-line bg-soot p-1">
           <button
-            onClick={() => updateKg(kg - 0.25)}
+            onClick={() => updateKg(kg - 0.5)}
             className="grid size-7 place-items-center rounded-full bg-white text-cream hover:bg-soot shadow-xs transition-colors"
           >
             <Minus className="size-3" />
@@ -198,7 +183,7 @@ function KgDishCard({
           />
           <span className="text-[10px] font-bold text-ash pr-1">KG</span>
           <button
-            onClick={() => updateKg(kg + 0.25)}
+            onClick={() => updateKg(kg + 0.5)}
             className="grid size-7 place-items-center rounded-full bg-cream text-white hover:bg-ember transition-colors shadow-xs"
           >
             <Plus className="size-3" />
@@ -226,6 +211,7 @@ function KgDishCard({
 
 /* ─────────────────────────────────────────────────────────────
    Standard Dish Card (Sides, Snacks, Drinks)
+   Proportioned image size: size-24 sm:size-28 (instead of size-16)
    ───────────────────────────────────────────────────────────── */
 function StandardDishCard({
   dish,
@@ -257,9 +243,9 @@ function StandardDishCard({
   return (
     <div
       onClick={() => onCustomize(dish)}
-      className="group flex gap-3.5 rounded-2xl border border-line bg-white p-3 shadow-xs transition-all hover:border-ember/50 hover:shadow-md cursor-pointer"
+      className="group flex gap-3.5 sm:gap-4 rounded-2xl border border-line bg-white p-3 sm:p-3.5 shadow-xs transition-all hover:border-ember/50 hover:shadow-md cursor-pointer"
     >
-      <div className="relative size-16 shrink-0 overflow-hidden rounded-xl bg-soot border border-line/60">
+      <div className="relative size-24 sm:size-28 shrink-0 overflow-hidden rounded-xl bg-soot border border-line/60">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={dish.image}
@@ -268,26 +254,26 @@ function StandardDishCard({
         />
       </div>
 
-      <div className="min-w-0 flex-1 flex flex-col justify-between">
+      <div className="min-w-0 flex-1 flex flex-col justify-between py-0.5">
         <div>
-          <h5 className="font-bold text-sm text-cream group-hover:text-ember transition-colors truncate">
+          <h5 className="font-bold text-sm sm:text-base text-cream group-hover:text-ember transition-colors truncate">
             {dish.name}
           </h5>
           {dish.description && (
-            <p className="mt-0.5 text-xs text-ash line-clamp-1 leading-relaxed">
+            <p className="mt-0.5 text-xs text-ash line-clamp-2 leading-relaxed">
               {dish.description}
             </p>
           )}
         </div>
 
-        <div className="mt-1.5 flex items-center justify-between">
-          <span className="font-display text-base text-cream">
+        <div className="mt-2 flex items-center justify-between">
+          <span className="font-display text-lg text-cream">
             {ksh(dish.basePrice)}
           </span>
           <button
             type="button"
             onClick={handleQuickAdd}
-            className={`grid size-7 place-items-center rounded-full transition-all duration-200 active:scale-90 ${
+            className={`grid size-7 sm:size-8 place-items-center rounded-full transition-all duration-200 active:scale-90 ${
               added
                 ? "bg-leaf text-white"
                 : "border border-line bg-white text-cream hover:border-ember hover:bg-ember hover:text-white shadow-xs"
@@ -326,7 +312,7 @@ function PlatterCard({ dish }: { dish: MenuDish }) {
 
   return (
     <div className="group relative overflow-hidden rounded-3xl border border-line bg-white shadow-xs transition-all hover:border-ember/40">
-      <div className="p-6">
+      <div className="p-5 sm:p-6">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <h4 className="font-display text-2xl tracking-[0.03em] text-cream">
@@ -341,7 +327,7 @@ function PlatterCard({ dish }: { dish: MenuDish }) {
 
         <button
           onClick={handleAdd}
-          className={`mt-5 w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full py-2.5 px-6 text-xs font-extrabold tracking-wide uppercase transition-all active:scale-95 ${
+          className={`mt-4 sm:mt-5 w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full py-2.5 px-6 text-xs font-extrabold tracking-wide uppercase transition-all active:scale-95 ${
             added
               ? "bg-leaf text-white"
               : "bg-gradient-to-br from-flame to-ember text-white shadow-xs hover:scale-[1.01]"
@@ -393,7 +379,7 @@ export function MenuExplorer({ items }: { items?: SeedItem[] }) {
   return (
     <>
       {/* Search Bar */}
-      <div className="relative max-w-md mb-10">
+      <div className="relative max-w-md mb-8 sm:mb-10">
         <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-ash z-10" />
         <input
           value={query}
@@ -446,23 +432,23 @@ export function MenuExplorer({ items }: { items?: SeedItem[] }) {
           )}
         </div>
       ) : (
-        <div className="space-y-16">
+        <div className="space-y-10 sm:space-y-12">
           {CATEGORIES.map((cat) => {
             const catDishes = dishesByCategory.get(cat.id) ?? [];
 
             return (
-              <section key={cat.id} id={`cat-${cat.id}`} className="scroll-mt-24 space-y-6">
-                {/* Category Header Banner */}
-                <div className="relative overflow-hidden rounded-3xl border border-line shadow-xs">
-                  <div className="relative h-32 sm:h-40">
+              <section key={cat.id} id={`cat-${cat.id}`} className="scroll-mt-24 space-y-4 sm:space-y-5">
+                {/* Category Header Banner - Proportioned height */}
+                <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl border border-line shadow-xs">
+                  <div className="relative h-20 sm:h-24 md:h-28">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={cat.image} alt={cat.label} className="h-full w-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-transparent" />
-                    <div className="absolute inset-0 flex flex-col justify-center px-6 sm:px-10">
-                      <h3 className="font-display text-4xl leading-none tracking-[0.04em] text-white sm:text-5xl">
+                    <div className="absolute inset-0 flex flex-col justify-center px-5 sm:px-8">
+                      <h3 className="font-display text-2xl sm:text-3xl md:text-4xl leading-none tracking-[0.04em] text-white">
                         {cat.label.toUpperCase()}
                       </h3>
-                      <p className="mt-1.5 max-w-lg text-xs sm:text-sm text-white/85 line-clamp-1">
+                      <p className="mt-1 max-w-lg text-xs sm:text-sm text-white/85 line-clamp-1">
                         {cat.blurb}
                       </p>
                     </div>
@@ -471,7 +457,7 @@ export function MenuExplorer({ items }: { items?: SeedItem[] }) {
 
                 {/* CHOMA ZONE */}
                 {cat.id === "choma" && (
-                  <div className="space-y-6">
+                  <div className="space-y-5">
                     <div className="grid gap-4 md:grid-cols-2">
                       {catDishes
                         .filter((d) => d.slug !== "chicken-platter-4")
@@ -485,7 +471,7 @@ export function MenuExplorer({ items }: { items?: SeedItem[] }) {
 
                 {/* MAINS / CHICKEN / FISH */}
                 {(cat.id === "mains" || cat.id === "chicken" || cat.id === "fish") && (
-                  <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
                     {catDishes.map((dish) => (
                       <KioskDishCard key={dish.slug} dish={dish} onCustomize={setModalDish} />
                     ))}

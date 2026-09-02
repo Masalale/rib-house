@@ -35,9 +35,9 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
         <Link href="/" className="group flex items-center gap-2.5">
           <img
-            src="/logo_no_background.png"
+            src="/logo_background.jpeg"
             alt="Rib House Logo"
-            className="size-11 object-contain transition-transform duration-300 group-hover:scale-105"
+            className="size-10 rounded-xl object-cover shadow-xs transition-transform duration-300 group-hover:scale-105"
           />
           <span className="leading-none">
             <span className="block font-display text-2xl tracking-[0.08em] text-cream">

@@ -377,27 +377,52 @@ export function DishCustomizerModal({ dish, onClose }: DishCustomizerModalProps)
               <div className="space-y-3.5">
                 <div className="flex items-center justify-between">
                   <h4 className="font-display text-2xl tracking-[0.03em] text-cream">
-                    PORTION
+                    WEIGHT
                   </h4>
                   <span className="font-display text-2xl text-flame">
                     {ksh(unitPrice)}
                   </span>
                 </div>
-                <div className="flex flex-wrap gap-2.5">
-                  {[0.5, 1, 1.5, 2, 3].map((p) => (
-                    <button
-                      key={p}
-                      type="button"
-                      onClick={() => setSelectedKg(p)}
-                      className={`rounded-2xl px-5 py-3 text-xs font-extrabold transition-all cursor-pointer ${
-                        selectedKg === p
-                          ? "bg-cream text-white shadow-sm"
-                          : "border border-line bg-white text-sand hover:border-sand"
-                      }`}
-                    >
-                      {p} KG · {ksh(Math.round(dish.perKgPrice! * p))}
-                    </button>
-                  ))}
+                <div className="flex items-center gap-2 rounded-full border border-line bg-soot p-1.5 w-fit">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setSelectedKg(
+                        Math.max(0.5, Math.round((selectedKg - 0.5) * 2) / 2),
+                      )
+                    }
+                    className="grid size-9 place-items-center rounded-full bg-white text-cream hover:bg-soot shadow-xs transition-colors cursor-pointer"
+                    aria-label="Decrease weight"
+                  >
+                    <Minus className="size-4" />
+                  </button>
+                  <div className="flex items-center px-2">
+                    <input
+                      type="text"
+                      inputMode="decimal"
+                      value={selectedKg}
+                      onChange={(e) => {
+                        const val = parseFloat(e.target.value);
+                        if (!isNaN(val) && val >= 0.5 && val <= 20) {
+                          setSelectedKg(val);
+                        }
+                      }}
+                      className="w-14 bg-transparent text-center text-base font-extrabold text-cream outline-none"
+                    />
+                    <span className="text-sm font-extrabold text-ash">KG</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setSelectedKg(
+                        Math.min(20, Math.round((selectedKg + 0.5) * 2) / 2),
+                      )
+                    }
+                    className="grid size-9 place-items-center rounded-full bg-cream text-white hover:bg-ember transition-colors shadow-xs cursor-pointer"
+                    aria-label="Increase weight"
+                  >
+                    <Plus className="size-4" />
+                  </button>
                 </div>
               </div>
             )}

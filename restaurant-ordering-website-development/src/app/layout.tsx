@@ -10,9 +10,9 @@ export const metadata: Metadata = {
     "Charcoal-grilled goat & beef choma, hearty stews, whole Lake Victoria tilapia, snacks and drinks. Order online for fast delivery or pickup in Nairobi.",
   keywords: ["Rib House", "nyama choma", "restaurant", "delivery", "Nairobi", "grilled meat", "Kenya"],
   icons: {
-    icon: "/logo_no_background.png",
-    shortcut: "/logo_no_background.png",
-    apple: "/logo_no_background.png",
+    icon: "/logo_background.jpeg",
+    shortcut: "/logo_background.jpeg",
+    apple: "/logo_background.jpeg",
   },
 };
 
@@ -22,8 +22,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
-        <link rel="icon" type="image/png" href="/logo_no_background.png" />
-        <link rel="apple-touch-icon" href="/logo_no_background.png" />
+        <link rel="icon" type="image/jpeg" href="/logo_background.jpeg" />
+        <link rel="apple-touch-icon" href="/logo_background.jpeg" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
