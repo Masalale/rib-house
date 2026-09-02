@@ -6,12 +6,15 @@ import {
   Layers,
   Minus,
   Plus,
-  Scale,
   Search,
   Utensils,
 } from "lucide-react";
-import type { MenuItemRow } from "@/db/schema";
-import { CATEGORIES, MENU_ITEMS, type CategoryId } from "@/lib/menu-data";
+import {
+  CATEGORIES,
+  MENU_ITEMS,
+  type CategoryId,
+  type SeedItem,
+} from "@/lib/menu-data";
 import { ksh } from "@/lib/format";
 import { useCart } from "@/components/cart-provider";
 
@@ -19,7 +22,7 @@ interface Group {
   key: string;
   label: string;
   category: CategoryId;
-  items: MenuItemRow[];
+  items: SeedItem[];
 }
 
 const KG_GROUP_KEYS = new Set(["choma-zone", "chemsha-zone", "tumbukiza"]);
@@ -28,34 +31,17 @@ function isKgGroup(groupKey: string): boolean {
   return KG_GROUP_KEYS.has(groupKey);
 }
 
-function getSpecificImage(groupKey: string, category: string, slug?: string): string {
-  if (slug) {
-    const found = MENU_ITEMS.find(it => it.slug === slug);
-    if (found && found.image) return found.image;
-  }
-  if (slug === "barista-dawa" || slug?.includes("dawa")) return "/images/dawa.jpg";
-  if (slug === "extra-chips-masala" || groupKey === "chips-masala" || groupKey === "specials") return "/images/chips-masala.jpg";
-  if (slug === "chicken-platter-4" || groupKey === "platters") return "/images/story.jpg";
-  if (groupKey === "tumbukiza" || groupKey === "soups") return "/images/tumbukiza.jpg";
-  if (groupKey === "choma-zone" || groupKey === "chemsha-zone") return "/images/choma.jpg";
-  if (groupKey === "shakes") return "/images/smoothie.jpg";
-  if (groupKey === "barista" || groupKey === "coffee" || groupKey === "hot") return "/images/dawa.jpg";
-  if (category === "chicken") return "/images/chicken.jpg";
-  if (category === "fish") return "/images/fish.jpg";
-  if (category === "mains") return "/images/stew.jpg";
-  if (category === "extras") return "/images/pilau.jpg";
-  if (category === "snacks") return "/images/snacks.jpg";
-  if (category === "drinks") return "/images/drinks.jpg";
-  return "/images/choma.jpg";
+function categoryImage(catId: CategoryId): string {
+  return CATEGORIES.find((c) => c.id === catId)?.image ?? "/images/choma.jpg";
 }
 
-function groupBy(items: MenuItemRow[]): Group[] {
+function groupBy(items: SeedItem[]): Group[] {
   const map = new Map<string, Group>();
   for (const item of items) {
     const g = map.get(item.groupKey) ?? {
       key: item.groupKey,
       label: item.groupLabel,
-      category: item.category as CategoryId,
+      category: item.category,
       items: [],
     };
     g.items.push(item);
@@ -67,13 +53,7 @@ function groupBy(items: MenuItemRow[]): Group[] {
 /* ─────────────────────────────────────────────────────────────
    Add Button
    ───────────────────────────────────────────────────────────── */
-function AddButton({
-  item,
-  image,
-}: {
-  item: MenuItemRow;
-  image: string;
-}) {
+function AddButton({ item, image }: { item: SeedItem; image: string }) {
   const { add } = useCart();
   const [added, setAdded] = useState(false);
 
@@ -111,7 +91,7 @@ function KgDishCard({
   baseSlug,
   image,
 }: {
-  baseItem: MenuItemRow;
+  baseItem: SeedItem;
   perKgPrice: number;
   baseSlug: string;
   image: string;
@@ -263,15 +243,9 @@ function KgDishCard({
 }
 
 /* ─────────────────────────────────────────────────────────────
-   Multi-Side Dish Card (Clean, direct accompaniment list with prices & +)
+   Multi-Side Dish Card (Mains, Chicken, Fish)
    ───────────────────────────────────────────────────────────── */
-function MultiSideDishCard({
-  group,
-  image,
-}: {
-  group: Group;
-  image: string;
-}) {
+function MultiSideDishCard({ group, image }: { group: Group; image: string }) {
   return (
     <div className="flex flex-col rounded-3xl border border-line bg-white p-5 shadow-xs transition-all hover:border-ember/40">
       <div className="mb-3">
@@ -306,15 +280,9 @@ function MultiSideDishCard({
 }
 
 /* ─────────────────────────────────────────────────────────────
-   Clean Dish List Row (Sides, Snacks, Drinks)
+   Dish List Row (Sides, Snacks, Drinks)
    ───────────────────────────────────────────────────────────── */
-function DishListItem({
-  item,
-  image,
-}: {
-  item: MenuItemRow;
-  image: string;
-}) {
+function DishListItem({ item, image }: { item: SeedItem; image: string }) {
   return (
     <div className="flex items-center justify-between rounded-xl px-3 py-2.5 transition-colors hover:bg-soot">
       <div className="min-w-0 pr-3">
@@ -345,15 +313,31 @@ function DishListItem({
 }
 
 /* ─────────────────────────────────────────────────────────────
+   Generic Category Group Card (used for sides/snacks/drinks)
+   ───────────────────────────────────────────────────────────── */
+function CategoryGroupCard({ group, cat }: { group: Group; cat: CategoryId }) {
+  return (
+    <div className="rounded-2xl border border-line bg-white p-4 shadow-xs">
+      <h4 className="font-display text-xl tracking-[0.03em] text-cream mb-2 px-2">
+        {group.label}
+      </h4>
+      <div className="divide-y divide-line/60">
+        {group.items.map((it) => (
+          <DishListItem
+            key={it.slug}
+            item={it}
+            image={it.image ?? categoryImage(cat)}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────
    Spotlight Card (Sharing Platter)
    ───────────────────────────────────────────────────────────── */
-function PlatterCard({
-  item,
-  image,
-}: {
-  item: MenuItemRow;
-  image: string;
-}) {
+function PlatterCard({ item, image }: { item: SeedItem; image: string }) {
   const { add } = useCart();
   const [added, setAdded] = useState(false);
 
@@ -415,15 +399,15 @@ function PlatterCard({
 /* ─────────────────────────────────────────────────────────────
    Main Menu Explorer with Desktop Sidebar & Mobile Tabs
    ───────────────────────────────────────────────────────────── */
-export function MenuExplorer({ items }: { items: MenuItemRow[] }) {
+export function MenuExplorer({ items }: { items: SeedItem[] }) {
   const [activeCat, setActiveCat] = useState<CategoryId | "all">("all");
   const [query, setQuery] = useState("");
 
   const byCategory = useMemo(() => {
-    const map = new Map<CategoryId, MenuItemRow[]>();
+    const map = new Map<CategoryId, SeedItem[]>();
     for (const cat of CATEGORIES) map.set(cat.id, []);
     for (const item of items) {
-      const arr = map.get(item.category as CategoryId);
+      const arr = map.get(item.category);
       if (arr) arr.push(item);
     }
     return map;
@@ -451,10 +435,9 @@ export function MenuExplorer({ items }: { items: MenuItemRow[] }) {
 
   return (
     <div className="flex flex-col gap-8 lg:flex-row">
-      {/* ── DESKTOP SIDEBAR: Clean, simple category list & search ── */}
+      {/* ── DESKTOP SIDEBAR ── */}
       <aside className="w-full shrink-0 lg:w-72 lg:sticky lg:top-20 lg:self-start space-y-4">
         <div className="rounded-3xl border border-line bg-white p-5 shadow-xs space-y-5">
-          {/* Search Box with proper padding to eliminate icon overlap */}
           <div className="relative">
             <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-ash z-10" />
             <input
@@ -474,7 +457,6 @@ export function MenuExplorer({ items }: { items: MenuItemRow[] }) {
             )}
           </div>
 
-          {/* Category List */}
           <div>
             <p className="flex items-center gap-1.5 text-[11px] font-extrabold tracking-[0.25em] text-ash uppercase mb-3">
               <Layers className="size-3.5" /> Categories
@@ -518,9 +500,8 @@ export function MenuExplorer({ items }: { items: MenuItemRow[] }) {
         </div>
       </aside>
 
-      {/* ── MAIN CONTENT: Dishes & Offerings with Accompaniments ── */}
+      {/* ── MAIN CONTENT ── */}
       <div className="min-w-0 flex-1 space-y-16">
-        {/* Search Results */}
         {searching ? (
           <div className="space-y-6">
             <p className="text-sm text-ash">
@@ -530,10 +511,13 @@ export function MenuExplorer({ items }: { items: MenuItemRow[] }) {
             </p>
 
             <div className="rounded-2xl border border-line bg-white p-3 divide-y divide-line shadow-xs">
-              {searchResults.map((item) => {
-                const img = getSpecificImage(item.groupKey, item.category, item.slug);
-                return <DishListItem key={item.slug} item={item} image={img} />;
-              })}
+              {searchResults.map((item) => (
+                <DishListItem
+                  key={item.slug}
+                  item={item}
+                  image={item.image ?? categoryImage(item.category)}
+                />
+              ))}
             </div>
 
             {searchResults.length === 0 && (
@@ -543,13 +527,12 @@ export function MenuExplorer({ items }: { items: MenuItemRow[] }) {
                   NO DISHES FOUND
                 </p>
                 <p className="mt-1 text-sm text-sand">
-                  Try searching for “goat choma”, “stew”, “tilapia”, or “dawa”.
+                  Try searching for "goat choma", "stew", "tilapia", or "dawa".
                 </p>
               </div>
             )}
           </div>
         ) : (
-          /* Category Sections */
           <div className="space-y-16">
             {filteredCategories.map((cat) => {
               const catItems = byCategory.get(cat.id) ?? [];
@@ -557,7 +540,7 @@ export function MenuExplorer({ items }: { items: MenuItemRow[] }) {
 
               return (
                 <section key={cat.id} id={`cat-${cat.id}`} className="scroll-mt-24 space-y-6">
-                  {/* Category Header with representative section photo */}
+                  {/* Category header banner */}
                   <div className="relative overflow-hidden rounded-3xl border border-line shadow-xs">
                     <div className="relative h-32 sm:h-40">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -578,14 +561,14 @@ export function MenuExplorer({ items }: { items: MenuItemRow[] }) {
                     </div>
                   </div>
 
-                  {/* ── CHOMA ZONE ── */}
+                  {/* CHOMA — KG cards + platter */}
                   {cat.id === "choma" && (
                     <div className="space-y-6">
                       <div className="grid gap-4 md:grid-cols-2">
                         {groups
                           .filter((g) => isKgGroup(g.key))
                           .map((g) => {
-                            const perKgMap = new Map<string, MenuItemRow>();
+                            const perKgMap = new Map<string, SeedItem>();
                             for (const it of g.items) {
                               if (it.side === "1 KG") perKgMap.set(it.name, it);
                             }
@@ -593,18 +576,17 @@ export function MenuExplorer({ items }: { items: MenuItemRow[] }) {
                               for (const it of g.items) perKgMap.set(it.slug, it);
                             }
                             return [...perKgMap.values()].map((base) => (
-                                <KgDishCard
-                                  key={base.slug}
-                                  baseItem={base}
-                                  perKgPrice={base.price}
-                                  baseSlug={base.slug}
-                                  image={getSpecificImage(g.key, cat.id, base.slug)}
-                                />
+                              <KgDishCard
+                                key={base.slug}
+                                baseItem={base}
+                                perKgPrice={base.price}
+                                baseSlug={base.slug}
+                                image={base.image ?? categoryImage(cat.id)}
+                              />
                             ));
                           })}
                       </div>
 
-                      {/* Sharing Platter */}
                       {platterItem && (
                         <PlatterCard
                           item={platterItem}
@@ -614,94 +596,24 @@ export function MenuExplorer({ items }: { items: MenuItemRow[] }) {
                     </div>
                   )}
 
-                  {/* ── SIGNATURE MAINS (with clean accompaniments table) ── */}
-                  {cat.id === "mains" && (
+                  {/* MAINS / CHICKEN / FISH — multi-side accompaniment cards */}
+                  {(cat.id === "mains" || cat.id === "chicken" || cat.id === "fish") && (
                     <div className="grid gap-4 md:grid-cols-2">
                       {groups.map((group) => (
                         <MultiSideDishCard
                           key={group.key}
                           group={group}
-                          image="/images/stew.jpg"
+                          image={categoryImage(cat.id)}
                         />
                       ))}
                     </div>
                   )}
 
-                  {/* ── CHICKEN & FISH (with clean accompaniments table) ── */}
-                  {(cat.id === "chicken" || cat.id === "fish") && (
-                    <div className="grid gap-4 md:grid-cols-2">
-                      {groups.map((group) => (
-                        <MultiSideDishCard
-                          key={group.key}
-                          group={group}
-                          image={cat.id === "chicken" ? "/images/chicken.jpg" : "/images/fish.jpg"}
-                        />
-                      ))}
-                    </div>
-                  )}
-
-                  {/* ── SIDES & EXTRAS ── */}
-                  {cat.id === "extras" && (
+                  {/* SIDES / SNACKS / DRINKS — list-of-items cards */}
+                  {(cat.id === "extras" || cat.id === "snacks" || cat.id === "drinks") && (
                     <div className="grid gap-6 md:grid-cols-2">
                       {groups.map((group) => (
-                        <div key={group.key} className="rounded-2xl border border-line bg-white p-4 shadow-xs">
-                          <h4 className="font-display text-xl tracking-[0.03em] text-cream mb-2 px-2">
-                            {group.label}
-                          </h4>
-                          <div className="divide-y divide-line/60">
-                            {group.items.map((it) => (
-                              <DishListItem
-                                key={it.slug}
-                                item={it}
-                                image={getSpecificImage(group.key, cat.id, it.slug)}
-                              />
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* ── SNACKS & SOUPS ── */}
-                  {cat.id === "snacks" && (
-                    <div className="grid gap-6 md:grid-cols-2">
-                      {groups.map((group) => (
-                        <div key={group.key} className="rounded-2xl border border-line bg-white p-4 shadow-xs">
-                          <h4 className="font-display text-xl tracking-[0.03em] text-cream mb-2 px-2">
-                            {group.label}
-                          </h4>
-                          <div className="divide-y divide-line/60">
-                            {group.items.map((it) => (
-                              <DishListItem
-                                key={it.slug}
-                                item={it}
-                                image={getSpecificImage(group.key, cat.id, it.slug)}
-                              />
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* ── DRINKS & BARISTA ── */}
-                  {cat.id === "drinks" && (
-                    <div className="grid gap-6 md:grid-cols-2">
-                      {groups.map((group) => (
-                        <div key={group.key} className="rounded-2xl border border-line bg-white p-4 shadow-xs">
-                          <h4 className="font-display text-xl tracking-[0.03em] text-cream mb-2 px-2">
-                            {group.label}
-                          </h4>
-                          <div className="divide-y divide-line/60">
-                            {group.items.map((it) => (
-                              <DishListItem
-                                key={it.slug}
-                                item={it}
-                                image={getSpecificImage(group.key, cat.id, it.slug)}
-                              />
-                            ))}
-                          </div>
-                        </div>
+                        <CategoryGroupCard key={group.key} group={group} cat={cat.id} />
                       ))}
                     </div>
                   )}

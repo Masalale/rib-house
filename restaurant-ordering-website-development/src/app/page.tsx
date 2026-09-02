@@ -4,13 +4,9 @@ import { MenuExplorer } from "@/components/menu-explorer";
 import { FireSection } from "@/components/fire-section";
 import { CtaBanner } from "@/components/cta-banner";
 import { SiteFooter } from "@/components/site-footer";
-import { getMenuItems } from "@/lib/menu-service";
+import { MENU_ITEMS } from "@/lib/menu-data";
 
-export const dynamic = "force-dynamic";
-
-export default async function Home() {
-  const items = await getMenuItems();
-
+export default function Home() {
   return (
     <main>
       <Hero />
@@ -30,7 +26,7 @@ export default async function Home() {
           </p>
         </div>
 
-        <MenuExplorer items={items} />
+        <MenuExplorer items={MENU_ITEMS} />
       </section>
 
       <FireSection />

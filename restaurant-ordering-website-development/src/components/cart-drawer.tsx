@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowLeft,
@@ -23,12 +22,46 @@ import { ksh } from "@/lib/format";
 
 type Step = "cart" | "checkout" | "success";
 
+function buildWhatsAppUrl(opts: {
+  name: string;
+  phone: string;
+  orderType: "delivery" | "pickup";
+  address: string;
+  notes: string;
+  payment: "mpesa" | "cash";
+  total: number;
+  lines: { name: string; side: string | null; price: number; qty: number }[];
+}): string {
+  const lines = opts.lines
+    .map((l, i) => {
+      const side = l.side ? ` — ${l.side}` : "";
+      return `${i + 1}. ${l.qty}× ${l.name}${side} — ${ksh(l.price * l.qty)}`;
+    })
+    .join("\n");
+  const message = [
+    `Hello Rib House — I'd like to place an order:`,
+    ``,
+    `*Name:* ${opts.name}`,
+    `*Phone:* ${opts.phone}`,
+    `*Type:* ${opts.orderType === "delivery" ? `Delivery${opts.address ? ` (${opts.address})` : ""}` : "Pickup"}`,
+    `*Payment:* ${opts.payment === "mpesa" ? "M-Pesa" : "Cash"}`,
+    opts.notes ? `*Notes:* ${opts.notes}` : ``,
+    ``,
+    `*Order:*`,
+    lines,
+    ``,
+    `*Total:* ${ksh(opts.total)}`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+  // wa.me requires only digits, no '+'
+  const num = RESTAURANT.phoneIntl.replace(/\D/g, "");
+  return `https://wa.me/${num}?text=${encodeURIComponent(message)}`;
+}
+
 export function CartDrawer() {
   const { lines, subtotal, isOpen, closeCart, setQty, remove, clear } = useCart();
   const [step, setStep] = useState<Step>("cart");
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [orderCode, setOrderCode] = useState<string | null>(null);
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -40,9 +73,11 @@ export function CartDrawer() {
   const deliveryFee = orderType === "delivery" && lines.length > 0 ? DELIVERY_FEE : 0;
   const total = subtotal + deliveryFee;
 
+  const [validationError, setValidationError] = useState<string | null>(null);
+  const [sending, setSending] = useState(false);
+
   useEffect(() => {
     if (!isOpen && step !== "success") {
-      // keep form details, just reset the view
       setTimeout(() => setStep("cart"), 250);
     }
   }, [isOpen, step]);
@@ -54,46 +89,41 @@ export function CartDrawer() {
     };
   }, [isOpen]);
 
-  async function placeOrder() {
-    setError(null);
-    if (name.trim().length < 2) return setError("Please tell us your name.");
-    if (phone.trim().length < 9) return setError("Please enter a valid phone number.");
+  const checkoutValid = useMemo(() => {
+    if (name.trim().length < 2) return "Please tell us your name.";
+    if (phone.replace(/\D/g, "").length < 9) return "Please enter a valid phone number.";
     if (orderType === "delivery" && address.trim().length < 4)
-      return setError("Please tell us where to deliver.");
-    if (lines.length === 0) return setError("Your cart is empty.");
+      return "Please tell us where to deliver.";
+    return null;
+  }, [name, phone, orderType, address]);
 
-    setSubmitting(true);
-    try {
-      const res = await fetch("/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          customerName: name.trim(),
-          phone: phone.trim(),
-          orderType,
-          address: address.trim(),
-          notes: notes.trim(),
-          paymentMethod: payment,
-          items: lines.map((l) =>
-            l.kg != null && l.baseSlug
-              ? { slug: l.baseSlug, qty: l.qty, kg: l.kg }
-              : { slug: l.slug, qty: l.qty },
-          ),
-        }),
-      });
-      const data = (await res.json()) as { ok: boolean; code?: string; error?: string };
-      if (!res.ok || !data.ok) {
-        setError(data.error ?? "Something went wrong. Please try again.");
-        return;
-      }
-      setOrderCode(data.code ?? null);
-      clear();
-      setStep("success");
-    } catch {
-      setError("Network hiccup — please try again.");
-    } finally {
-      setSubmitting(false);
+  function sendToWhatsApp() {
+    setValidationError(null);
+    const err = checkoutValid;
+    if (err) {
+      setValidationError(err);
+      return;
     }
+    if (lines.length === 0) {
+      setValidationError("Your cart is empty.");
+      return;
+    }
+    setSending(true);
+    const url = buildWhatsAppUrl({
+      name: name.trim(),
+      phone: phone.trim(),
+      orderType,
+      address: address.trim(),
+      notes: notes.trim(),
+      payment,
+      total,
+      lines,
+    });
+    // open in a new tab so the page stays put
+    window.open(url, "_blank", "noopener,noreferrer");
+    clear();
+    setStep("success");
+    setSending(false);
   }
 
   return (
@@ -129,7 +159,7 @@ export function CartDrawer() {
                 <h3 className="font-display text-2xl tracking-[0.08em]">
                   {step === "cart" && "YOUR ORDER"}
                   {step === "checkout" && "CHECKOUT"}
-                  {step === "success" && "ORDER PLACED"}
+                  {step === "success" && "ORDER SENT"}
                 </h3>
               </div>
               <button
@@ -322,8 +352,8 @@ export function CartDrawer() {
                     <div className="grid grid-cols-2 gap-2">
                       {(
                         [
-                          { id: "mpesa", label: "M-Pesa", hint: "Till / Send money" },
-                          { id: "cash", label: "Cash", hint: "Pay on delivery" },
+                          { id: "mpesa", label: "M-Pesa", hint: "We'll share till on confirm" },
+                          { id: "cash", label: "Cash", hint: "Pay on delivery / pickup" },
                         ] as const
                       ).map((opt) => (
                         <button
@@ -342,9 +372,9 @@ export function CartDrawer() {
                     </div>
                   </div>
 
-                  {error && (
+                  {validationError && (
                     <p className="rounded-xl border border-danger/40 bg-danger/10 px-4 py-3 text-sm font-semibold text-danger">
-                      {error}
+                      {validationError}
                     </p>
                   )}
                 </div>
@@ -367,16 +397,16 @@ export function CartDrawer() {
                     </div>
                   </div>
                   <button
-                    onClick={placeOrder}
-                    disabled={submitting}
+                    onClick={sendToWhatsApp}
+                    disabled={sending}
                     className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-br from-flame via-ember to-blood py-3.5 text-sm font-extrabold tracking-widest text-coal uppercase transition-transform hover:scale-[1.02] active:scale-95 disabled:opacity-60"
                   >
-                    {submitting ? (
+                    {sending ? (
                       <>
-                        <Loader2 className="size-4.5 animate-spin" /> Sending to the kitchen…
+                        <Loader2 className="size-4.5 animate-spin" /> Opening WhatsApp…
                       </>
                     ) : (
-                      <>Place order · {ksh(total)}</>
+                      <>Send order via WhatsApp · {ksh(total)}</>
                     )}
                   </button>
                 </div>
@@ -397,22 +427,9 @@ export function CartDrawer() {
                 <h4 className="mt-6 font-display text-4xl tracking-[0.05em]">
                   ORDER ON THE FIRE
                 </h4>
-                <p className="mt-2 text-sm text-ash">
-                  Keep this code — you&apos;ll need it to track your order.
-                </p>
-                <div className="mt-5 w-full rounded-2xl border border-dashed border-ember/50 bg-ember/10 px-6 py-4">
-                  <p className="text-[10px] font-extrabold tracking-[0.3em] text-flame uppercase">
-                    Order code
-                  </p>
-                  <p className="mt-1 font-display text-4xl tracking-[0.2em] text-cream">
-                    {orderCode}
-                  </p>
-                </div>
-                <p className="mt-4 text-xs leading-relaxed text-ash">
-                  We&apos;ll confirm your order by phone shortly.{" "}
-                  {payment === "mpesa"
-                    ? "Have your M-Pesa ready — we'll share the till details when we confirm."
-                    : "Payment is collected on delivery / pickup."}
+                <p className="mt-2 max-w-sm text-sm text-ash">
+                  We&apos;ve opened WhatsApp with your order ready to send. Hit send
+                  and we&apos;ll confirm by phone in a minute or two.
                 </p>
 
                 <div className="mt-7 flex w-full flex-col gap-2.5">
