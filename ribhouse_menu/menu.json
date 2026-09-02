@@ -1,0 +1,331 @@
+{
+  "restaurant": {
+    "name": "Rib House",
+    "tagline": "Best Quality Grilled Meat",
+    "contact": {
+      "phone": "0724 594 204",
+      "email": "ribhouseke@gmail.com"
+    },
+    "currency": "KES"
+  },
+  "categories": [
+    {
+      "name": "Main Dishes",
+      "dishes": [
+        {
+          "name": "Matumbo / Fry",
+          "options": [
+            { "side": "Ugali / Chapati", "price": 400 },
+            { "side": "Rice / Mukimo", "price": 410 },
+            { "side": "Pilau", "price": 500 },
+            { "side": "Chips", "price": 540 },
+            { "side": "Chips Masala", "price": 600 }
+          ]
+        },
+        {
+          "name": "Beef Stew / Fry",
+          "options": [
+            { "side": "Ugali / Chapati", "price": 440 },
+            { "side": "Rice / Mukimo", "price": 450 },
+            { "side": "Pilau", "price": 540 },
+            { "side": "Chips", "price": 590 },
+            { "side": "Chips Masala", "price": 630 }
+          ]
+        },
+        {
+          "name": "Liver",
+          "options": [
+            { "side": "Ugali / Chapati", "price": 450 },
+            { "side": "Rice / Mukimo", "price": 460 },
+            { "side": "Pilau", "price": 550 },
+            { "side": "Chips", "price": 680 },
+            { "side": "Chips Masala", "price": 630 }
+          ]
+        },
+        {
+          "name": "Goat Stew / Fry",
+          "options": [
+            { "side": "Ugali / Chapati", "price": 470 },
+            { "side": "Rice / Mukimo", "price": 480 },
+            { "side": "Pilau", "price": 570 },
+            { "side": "Chips", "price": 620 },
+            { "side": "Chips Masala", "price": 670 }
+          ]
+        },
+        {
+          "name": "Chicken Kienyeji Quarter",
+          "options": [
+            { "side": "Ugali / Chapati", "price": 470 },
+            { "side": "Rice / Mukimo", "price": 480 },
+            { "side": "Pilau", "price": 570 },
+            { "side": "Chips", "price": 620 },
+            { "side": "Chips Masala", "price": 670 }
+          ]
+        },
+        {
+          "name": "Chicken / Wet Fry",
+          "options": [
+            { "side": "Ugali / Chapati", "price": 450 },
+            { "side": "Rice / Mukimo", "price": 460 },
+            { "side": "Pilau", "price": 550 },
+            { "side": "Chips", "price": 580 },
+            { "side": "Chips Masala", "price": 630 }
+          ]
+        },
+        {
+          "name": "Beef Steak",
+          "options": [
+            { "side": "Ugali / Chapati", "price": 590 },
+            { "side": "Rice / Mukimo", "price": 600 },
+            { "side": "Pilau", "price": 690 },
+            { "side": "Chips", "price": 740 },
+            { "side": "Chips Masala", "price": 800 }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Chicken & Fish",
+      "dishes": [
+        {
+          "name": "Deep Fried Chicken",
+          "options": [
+            { "side": "Ugali / Chapati", "price": 390 },
+            { "side": "Rice / Mukimo", "price": 400 },
+            { "side": "Pilau", "price": 490 },
+            { "side": "Chips", "price": 600 },
+            { "side": "Chips Masala", "price": 630 }
+          ]
+        },
+        {
+          "name": "Fish Fillet",
+          "options": [
+            { "side": "Ugali / Chapati", "price": 490 },
+            { "side": "Rice / Mukimo", "price": 480 },
+            { "side": "Pilau", "price": 570 },
+            { "side": "Chips", "price": 600 },
+            { "side": "Chips Masala", "price": 650 }
+          ]
+        },
+        {
+          "name": "Whole Tilapia (Wet Stew)",
+          "preparation": "Stew",
+          "options": [
+            { "side": "Ugali / Chapati", "price": 590 },
+            { "side": "Rice / Mukimo", "price": 600 },
+            { "side": "Pilau", "price": 690 },
+            { "side": "Chips", "price": 720 },
+            { "side": "Chips Masala", "price": 770 }
+          ]
+        },
+        {
+          "name": "Whole Tilapia (Dry Fry)",
+          "preparation": "Dry",
+          "options": [
+            { "side": "Ugali / Chapati", "price": 570 },
+            { "side": "Rice / Mukimo", "price": 580 },
+            { "side": "Pilau", "price": 680 },
+            { "side": "Chips", "price": 700 },
+            { "side": "Chips Masala", "price": 750 }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Choma Zone",
+      "items": [
+        {
+          "name": "Beef Choma",
+          "preparation": "Charcoal Grill",
+          "portions": [
+            { "size": "1 KG", "price": 1100 },
+            { "size": "0.5 KG", "price": 550 }
+          ]
+        },
+        {
+          "name": "Goat Choma",
+          "preparation": "Charcoal Grill",
+          "portions": [
+            { "size": "1 KG", "price": 1200 },
+            { "size": "0.5 KG", "price": 600 }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Chemsha Zone",
+      "items": [
+        {
+          "name": "Beef Chemsha",
+          "preparation": "Slow-boiled",
+          "portions": [
+            { "size": "1 KG", "price": 1200 },
+            { "size": "0.5 KG", "price": 600 }
+          ]
+        },
+        {
+          "name": "Goat Chemsha",
+          "preparation": "Slow-boiled",
+          "portions": [
+            { "size": "1 KG", "price": 1300 },
+            { "size": "0.5 KG", "price": 650 }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Fry / Tumbukiza",
+      "note": "On Order",
+      "items": [
+        {
+          "name": "Beef Tumbukiza / Fry",
+          "size": "1 KG",
+          "price": 1300
+        },
+        {
+          "name": "Goat Tumbukiza / Fry",
+          "size": "1 KG",
+          "price": 1400
+        }
+      ]
+    },
+    {
+      "name": "Sharing Platters",
+      "items": [
+        {
+          "name": "Chicken Platter for 4",
+          "note": "On Order",
+          "price": 1900,
+          "includes": [
+            "Chicken Wet Fry (2 Portions)",
+            "Beef Fry (2 Portions)",
+            "Chips (2 Portions)",
+            "Ugali / Chapati (2 Portions)",
+            "Veggies - Spinach (2 Portions)",
+            "Juice Small (4 Glasses)"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sides & Extras",
+      "items": [
+        { "name": "Waru", "description": "Soft boiled potatoes", "price": 120 },
+        { "name": "Spinach", "price": 120 },
+        { "name": "Banana", "price": 100 },
+        { "name": "Rice / Mukimo Special", "price": 250 },
+        { "name": "Pilau Special", "price": 270 },
+        { "name": "Chips Plain", "price": 220 },
+        { "name": "Chips Masala", "price": 270 },
+        { "name": "Rice Plain", "price": 200 },
+        { "name": "Mukimo Plain", "price": 200 }
+      ]
+    },
+    {
+      "name": "Snacks & Soups",
+      "snacks": [
+        { "name": "Samosa", "price": 70 },
+        { "name": "Sausage", "price": 70 },
+        { "name": "Andazi", "price": 50 },
+        { "name": "Kebab", "price": 100 },
+        { "name": "Chapati", "options": ["White", "Brown"], "price": 70 }
+      ],
+      "soups": [
+        { "name": "Bone Soup", "price": 100 },
+        { "name": "Soup Chemsha", "price": 150 }
+      ]
+    },
+    {
+      "name": "Cold Beverages",
+      "items": [
+        { "name": "Soda", "price": 70 },
+        { "name": "Pepsi", "price": 70 },
+        { "name": "Minute Maid", "price": 100 },
+        { "name": "Dasani", "size": "1 Litre", "price": 100 },
+        { "name": "Dasani", "size": "500 ml", "price": 80 },
+        { "name": "Mineral Water", "size": "500 ml", "price": 60 },
+        { "name": "Mineral Water", "size": "1 Litre", "price": 70 },
+        { "name": "Passion Juice", "price": 150 },
+        { "name": "Cocktail Juice", "price": 150 },
+        { "name": "Mango Juice", "price": 150 },
+        { "name": "Mint Lemonade", "price": 100 },
+        { "name": "Juice Take Away", "size": "1 Litre", "price": 200 }
+      ]
+    },
+    {
+      "name": "Milkshakes, Smoothies & Ice Cream",
+      "items": [
+        {
+          "name": "Milkshake",
+          "flavors": ["Chocolate", "Blueberry", "Strawberry", "Vanilla"],
+          "price": 250
+        },
+        { "name": "Espresso Shake", "price": 250 },
+        { "name": "Oreo Shake", "price": 300 },
+        {
+          "name": "Smoothies",
+          "flavors": ["Banana", "Passion", "Tropical"],
+          "price": 200
+        },
+        { "name": "Ice Cream Scoops", "price": 150 },
+        {
+          "name": "Lemonade",
+          "flavors": ["Blue", "Classic", "Mint"],
+          "price": 100
+        },
+        { "name": "Iced Coffee", "price": 180 }
+      ]
+    },
+    {
+      "name": "Coffee Bar",
+      "items": [
+        {
+          "name": "Cappuccino",
+          "options": [
+            { "size": "Single", "price": 150 },
+            { "size": "Double", "price": 180 }
+          ]
+        },
+        {
+          "name": "Espresso",
+          "options": [
+            { "size": "Single", "price": 120 },
+            { "size": "Double", "price": 150 }
+          ]
+        },
+        { "name": "Americano", "price": 150 },
+        { "name": "Latte Macchiato", "price": 150 },
+        { "name": "Latte Mocha", "price": 180 },
+        { "name": "Café Latte", "price": 150 }
+      ]
+    },
+    {
+      "name": "Hot Beverages",
+      "items": [
+        { "name": "White Coffee", "price": 100 },
+        { "name": "Black Coffee", "price": 80 },
+        { "name": "Black Coffee with Lemon", "price": 110 },
+        { "name": "Tea Masala White", "price": 100 },
+        { "name": "Tea Masala Black", "price": 100 },
+        { "name": "Hot Milk", "price": 100 },
+        { "name": "Lemon Water", "price": 70 },
+        { "name": "Lemon Tea", "price": 100 },
+        { "name": "Lemon Tea with Honey", "price": 150 },
+        { "name": "White Chocolate", "price": 100 },
+        { "name": "Black Milo", "price": 90 },
+        { "name": "Honey Cone", "price": 50 }
+      ]
+    },
+    {
+      "name": "Barista Specials",
+      "items": [
+        { "name": "Dawa", "price": 250 },
+        { "name": "Special Tea", "price": 250 },
+        { "name": "House Coffee White", "price": 300 },
+        { "name": "House Coffee Black", "price": 200 },
+        { "name": "House Smoothie", "price": 150 },
+        { "name": "House Milkshake", "price": 100 }
+      ]
+    }
+  ]
+}

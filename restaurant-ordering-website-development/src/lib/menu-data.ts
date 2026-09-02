@@ -37,6 +37,7 @@ export interface SeedItem {
   description?: string;
   tag?: string;
   popular?: boolean;
+  image?: string;
 }
 
 export interface Category {
@@ -124,16 +125,16 @@ function stewGroup(
 
 export const MENU_ITEMS: SeedItem[] = [
   // ── CHOMA ZONE ─────────────────────────────────────────────
-  { slug: "choma-beef-1kg", name: "Beef Choma", side: "1 KG", category: "choma", groupKey: "choma-zone", groupLabel: "Choma — Charcoal Grill", price: 1100, popular: true, description: "Char-grilled over open flame, served with kachumbari" },
-  { slug: "choma-beef-half", name: "Beef Choma", side: "½ KG", category: "choma", groupKey: "choma-zone", groupLabel: "Choma — Charcoal Grill", price: 550, description: "Char-grilled over open flame, served with kachumbari" },
+  { image: "/images/CHOMA_BEEF_1_KG.png", slug: "choma-beef-1kg", name: "Beef Choma", side: "1 KG", category: "choma", groupKey: "choma-zone", groupLabel: "Choma — Charcoal Grill", price: 1100, popular: true, description: "Char-grilled over open flame, served with kachumbari" },
+  { image: "/images/CHOMA_BEEF_0.5_KG.png", slug: "choma-beef-half", name: "Beef Choma", side: "½ KG", category: "choma", groupKey: "choma-zone", groupLabel: "Choma — Charcoal Grill", price: 550, description: "Char-grilled over open flame, served with kachumbari" },
   { slug: "choma-goat-1kg", name: "Goat Choma", side: "1 KG", category: "choma", groupKey: "choma-zone", groupLabel: "Choma — Charcoal Grill", price: 1200, popular: true, description: "Tender goat, flame-kissed — the house favourite" },
-  { slug: "choma-goat-half", name: "Goat Choma", side: "½ KG", category: "choma", groupKey: "choma-zone", groupLabel: "Choma — Charcoal Grill", price: 600, description: "Tender goat, flame-kissed — the house favourite" },
-  { slug: "chemsha-beef-1kg", name: "Beef Chemsha", side: "1 KG", category: "choma", groupKey: "chemsha-zone", groupLabel: "Chemsha Zone", price: 1200, description: "Slow-boiled till tender, finished with house spices" },
-  { slug: "chemsha-beef-half", name: "Beef Chemsha", side: "½ KG", category: "choma", groupKey: "chemsha-zone", groupLabel: "Chemsha Zone", price: 600, description: "Slow-boiled till tender, finished with house spices" },
+  { image: "/images/CHOMA_GOAT_0.5_KG.png", slug: "choma-goat-half", name: "Goat Choma", side: "½ KG", category: "choma", groupKey: "choma-zone", groupLabel: "Choma — Charcoal Grill", price: 600, description: "Tender goat, flame-kissed — the house favourite" },
+  { image: "/images/CHEMSHA_BEEF_1_KG.png", slug: "chemsha-beef-1kg", name: "Beef Chemsha", side: "1 KG", category: "choma", groupKey: "chemsha-zone", groupLabel: "Chemsha Zone", price: 1200, description: "Slow-boiled till tender, finished with house spices" },
+  { image: "/images/CHEMSHA_BEEF_0.5_KG.png", slug: "chemsha-beef-half", name: "Beef Chemsha", side: "½ KG", category: "choma", groupKey: "chemsha-zone", groupLabel: "Chemsha Zone", price: 600, description: "Slow-boiled till tender, finished with house spices" },
   { slug: "chemsha-goat-1kg", name: "Goat Chemsha", side: "1 KG", category: "choma", groupKey: "chemsha-zone", groupLabel: "Chemsha Zone", price: 1300, description: "Slow-boiled till tender, finished with house spices" },
   { slug: "chemsha-goat-half", name: "Goat Chemsha", side: "½ KG", category: "choma", groupKey: "chemsha-zone", groupLabel: "Chemsha Zone", price: 650, description: "Slow-boiled till tender, finished with house spices" },
   { slug: "tumbukiza-beef", name: "Tumbukiza Beef", side: "1 KG", category: "choma", groupKey: "tumbukiza", groupLabel: "Fry / Tumbukiza", price: 1300, tag: "On Order", description: "Rich one-pot fry — made fresh to order, allow extra time" },
-  { slug: "tumbukiza-goat", name: "Tumbukiza Goat", side: "1 KG", category: "choma", groupKey: "tumbukiza", groupLabel: "Fry / Tumbukiza", price: 1400, tag: "On Order", description: "Rich one-pot fry — made fresh to order, allow extra time" },
+  { image: "/images/GOAT_FRY___TUMBUKIZA_1_KG.png", slug: "tumbukiza-goat", name: "Tumbukiza Goat", side: "1 KG", category: "choma", groupKey: "tumbukiza", groupLabel: "Fry / Tumbukiza", price: 1400, tag: "On Order", description: "Rich one-pot fry — made fresh to order, allow extra time" },
   {
     slug: "chicken-platter-4",
     name: "Chicken Platter — Feeds 4",
@@ -199,7 +200,7 @@ export const MENU_ITEMS: SeedItem[] = [
   { slug: "drink-juice-takeaway", name: "Juice Take Away", side: "1 Litre", category: "drinks", groupKey: "cold", groupLabel: "Cold Beverages", price: 200 },
 
   // ── DRINKS: SHAKES ─────────────────────────────────────────
-  { slug: "shake-milkshake", name: "Milkshake", side: null, category: "drinks", groupKey: "shakes", groupLabel: "Milkshakes & Smoothies", price: 250, description: "Chocolate · Blueberry · Strawberry · Vanilla" },
+  { image: "/images/MILKSHAKE_FLAVORED.png", slug: "shake-milkshake", name: "Milkshake", side: null, category: "drinks", groupKey: "shakes", groupLabel: "Milkshakes & Smoothies", price: 250, description: "Chocolate · Blueberry · Strawberry · Vanilla" },
   { slug: "shake-oreo", name: "Oreo Shake", side: null, category: "drinks", groupKey: "shakes", groupLabel: "Milkshakes & Smoothies", price: 300 },
   { slug: "shake-espresso", name: "Espresso Shake", side: null, category: "drinks", groupKey: "shakes", groupLabel: "Milkshakes & Smoothies", price: 250 },
   { slug: "shake-smoothie", name: "Smoothie", side: null, category: "drinks", groupKey: "shakes", groupLabel: "Milkshakes & Smoothies", price: 200, description: "Banana · Passion · Tropical" },
@@ -208,19 +209,19 @@ export const MENU_ITEMS: SeedItem[] = [
   { slug: "shake-iced-coffee", name: "Iced Coffee", side: null, category: "drinks", groupKey: "shakes", groupLabel: "Milkshakes & Smoothies", price: 250 },
 
   // ── DRINKS: COFFEE BAR ─────────────────────────────────────
-  { slug: "coffee-cappuccino", name: "Cappuccino", side: "Single", category: "drinks", groupKey: "coffee", groupLabel: "Coffee Bar", price: 150, description: "Double shot — 180" },
-  { slug: "coffee-espresso", name: "Espresso", side: "Single", category: "drinks", groupKey: "coffee", groupLabel: "Coffee Bar", price: 120, description: "Double shot — 150" },
+  { image: "/images/Cappuccino_Single.png", slug: "coffee-cappuccino", name: "Cappuccino", side: "Single", category: "drinks", groupKey: "coffee", groupLabel: "Coffee Bar", price: 150, description: "Double shot — 180" },
+  { image: "/images/Espresso_Double.png", slug: "coffee-espresso", name: "Espresso", side: "Single", category: "drinks", groupKey: "coffee", groupLabel: "Coffee Bar", price: 120, description: "Double shot — 150" },
   { slug: "coffee-americano", name: "Americano", side: null, category: "drinks", groupKey: "coffee", groupLabel: "Coffee Bar", price: 150 },
   { slug: "coffee-latte-macchiato", name: "Latte Macchiato", side: null, category: "drinks", groupKey: "coffee", groupLabel: "Coffee Bar", price: 150 },
-  { slug: "coffee-latte-mocha", name: "Latte Mocha", side: null, category: "drinks", groupKey: "coffee", groupLabel: "Coffee Bar", price: 180 },
+  { image: "/images/Latte_Mocha.png", slug: "coffee-latte-mocha", name: "Latte Mocha", side: null, category: "drinks", groupKey: "coffee", groupLabel: "Coffee Bar", price: 180 },
   { slug: "coffee-cafe-latte", name: "Café Latte", side: null, category: "drinks", groupKey: "coffee", groupLabel: "Coffee Bar", price: 150 },
 
   // ── DRINKS: HOT ────────────────────────────────────────────
   { slug: "hot-white-coffee", name: "White Coffee", side: null, category: "drinks", groupKey: "hot", groupLabel: "Hot Beverages", price: 100 },
   { slug: "hot-black-coffee", name: "Black Coffee", side: null, category: "drinks", groupKey: "hot", groupLabel: "Hot Beverages", price: 80 },
-  { slug: "hot-black-coffee-lemon", name: "Black Coffee", side: "With Lemon", category: "drinks", groupKey: "hot", groupLabel: "Hot Beverages", price: 110 },
-  { slug: "hot-masala-white", name: "Masala Tea", side: "White", category: "drinks", groupKey: "hot", groupLabel: "Hot Beverages", price: 100 },
-  { slug: "hot-masala-black", name: "Masala Tea", side: "Black", category: "drinks", groupKey: "hot", groupLabel: "Hot Beverages", price: 100 },
+  { image: "/images/Black_Coffee_W_lemon.png", slug: "hot-black-coffee-lemon", name: "Black Coffee", side: "With Lemon", category: "drinks", groupKey: "hot", groupLabel: "Hot Beverages", price: 110 },
+  { image: "/images/Tea_Masala_White.png", slug: "hot-masala-white", name: "Masala Tea", side: "White", category: "drinks", groupKey: "hot", groupLabel: "Hot Beverages", price: 100 },
+  { image: "/images/Tea_Masala_Black.png", slug: "hot-masala-black", name: "Masala Tea", side: "Black", category: "drinks", groupKey: "hot", groupLabel: "Hot Beverages", price: 100 },
   { slug: "hot-milk", name: "Milk", side: "Hot", category: "drinks", groupKey: "hot", groupLabel: "Hot Beverages", price: 100 },
   { slug: "hot-lemon-water", name: "Lemon Water", side: null, category: "drinks", groupKey: "hot", groupLabel: "Hot Beverages", price: 70 },
   { slug: "hot-lemon-tea", name: "Lemon Tea", side: null, category: "drinks", groupKey: "hot", groupLabel: "Hot Beverages", price: 100 },
@@ -231,9 +232,9 @@ export const MENU_ITEMS: SeedItem[] = [
 
   // ── DRINKS: BARISTA SPECIALS ───────────────────────────────
   { slug: "barista-dawa", name: "Dawa", side: null, category: "drinks", groupKey: "barista", groupLabel: "Barista Specials", price: 250, popular: true, description: "Ginger, garlic, honey & lemon — the Kenyan classic" },
-  { slug: "barista-tea-special", name: "Special Tea", side: null, category: "drinks", groupKey: "barista", groupLabel: "Barista Specials", price: 250 },
-  { slug: "barista-house-white", name: "House Coffee", side: "White", category: "drinks", groupKey: "barista", groupLabel: "Barista Specials", price: 300 },
-  { slug: "barista-house-black", name: "House Coffee", side: "Black", category: "drinks", groupKey: "barista", groupLabel: "Barista Specials", price: 200 },
+  { image: "/images/Tea_special.png", slug: "barista-tea-special", name: "Special Tea", side: null, category: "drinks", groupKey: "barista", groupLabel: "Barista Specials", price: 250 },
+  { image: "/images/House_Coffee_white.png", slug: "barista-house-white", name: "House Coffee", side: "White", category: "drinks", groupKey: "barista", groupLabel: "Barista Specials", price: 300 },
+  { image: "/images/House_Coffee_Black.png", slug: "barista-house-black", name: "House Coffee", side: "Black", category: "drinks", groupKey: "barista", groupLabel: "Barista Specials", price: 200 },
   { slug: "barista-smoothie", name: "House Smoothie", side: null, category: "drinks", groupKey: "barista", groupLabel: "Barista Specials", price: 150 },
   { slug: "barista-milkshake", name: "House Milkshake", side: null, category: "drinks", groupKey: "barista", groupLabel: "Barista Specials", price: 100 },
 ];

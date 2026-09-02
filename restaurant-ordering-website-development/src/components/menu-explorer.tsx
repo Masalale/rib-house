@@ -11,7 +11,7 @@ import {
   Utensils,
 } from "lucide-react";
 import type { MenuItemRow } from "@/db/schema";
-import { CATEGORIES, type CategoryId } from "@/lib/menu-data";
+import { CATEGORIES, MENU_ITEMS, type CategoryId } from "@/lib/menu-data";
 import { ksh } from "@/lib/format";
 import { useCart } from "@/components/cart-provider";
 
@@ -29,6 +29,10 @@ function isKgGroup(groupKey: string): boolean {
 }
 
 function getSpecificImage(groupKey: string, category: string, slug?: string): string {
+  if (slug) {
+    const found = MENU_ITEMS.find(it => it.slug === slug);
+    if (found && found.image) return found.image;
+  }
   if (slug === "barista-dawa" || slug?.includes("dawa")) return "/images/dawa.jpg";
   if (slug === "extra-chips-masala" || groupKey === "chips-masala" || groupKey === "specials") return "/images/chips-masala.jpg";
   if (slug === "chicken-platter-4" || groupKey === "platters") return "/images/story.jpg";
@@ -589,13 +593,13 @@ export function MenuExplorer({ items }: { items: MenuItemRow[] }) {
                               for (const it of g.items) perKgMap.set(it.slug, it);
                             }
                             return [...perKgMap.values()].map((base) => (
-                              <KgDishCard
-                                key={base.slug}
-                                baseItem={base}
-                                perKgPrice={base.price}
-                                baseSlug={base.slug}
-                                image={getSpecificImage(g.key, cat.id)}
-                              />
+                                <KgDishCard
+                                  key={base.slug}
+                                  baseItem={base}
+                                  perKgPrice={base.price}
+                                  baseSlug={base.slug}
+                                  image={getSpecificImage(g.key, cat.id, base.slug)}
+                                />
                             ));
                           })}
                       </div>
